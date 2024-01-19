@@ -19,7 +19,7 @@
         <td>{{ category.name }}</td>
         <td>{{ category.description }}</td>
           <td>
-            <button class="btn btn-primary btn-sm" [routerLink]="['/editar']">Editar</button> ㅤ
+            <button class="btn btn-primary btn-sm" [routerLink]="['/editar', category.id]">Editar</button>ㅤ
             <button class="btn btn-danger btn-sm">Eliminar</button>
           </td>
       </tr>

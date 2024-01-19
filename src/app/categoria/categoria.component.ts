@@ -24,17 +24,17 @@ export class CategoriaComponent implements OnInit{
     ) {}
 
   ngOnInit() {
-    // this.categoriaForm = this.fb.group({
-    //   categoriaPadre: [0, Validators.required],
-    //   nombre: ['', Validators.required],
-    //   id: [0, [Validators.required, Validators.min(1)]],
-    //   descripcion: ['', Validators.required]
-    // });
+    this.categoriaForm = this.fb.group({
+      categoriaPadre: [0, Validators.required],
+      nombre: ['', Validators.required],
+      id: [0, [Validators.required, Validators.min(1)]],
+      descripcion: ['', Validators.required]
+    });
 
-    // this.categoriesService.getAllCategories().subscribe(categorias => {
-    //   this.categorias = categorias;
-    //   console.log('Categorías obtenidas:', categorias);
-    // });
+    this.categoriesService.getAllCategories().subscribe(categorias => {
+      this.categorias = categorias;
+      console.log('Categorías obtenidas:', categorias);
+    });
   }
 
   loadPageData(){
@@ -47,15 +47,15 @@ export class CategoriaComponent implements OnInit{
   /**
    * get form
    */
-  get categoriaForm(): FormGroup {
-    return this.formBuilder.group({
-      categoriaPadre: [0, Validators.required],
-      nombre: ['', Validators.required],
-      id: [0, [Validators.required, Validators.min(1)]],
-      descripcion: ['', Validators.required]
+  // get categoriaForm(): FormGroup {
+  //   return this.formBuilder.group({
+  //     categoriaPadre: [0, Validators.required],
+  //     nombre: ['', Validators.required],
+  //     id: [0, [Validators.required, Validators.min(1)]],
+  //     descripcion: ['', Validators.required]
       
-    });
-  }
+  //   });
+  // }
 
   crearCategoria() {
     if (this.categoriaForm && this.categoriaForm.valid) {
@@ -77,6 +77,14 @@ export class CategoriaComponent implements OnInit{
       }
     }
   }
+
+  clicTouch() {
+        Object.values(this.categoriaForm.controls).forEach(control => {
+          control.markAsTouched();
+        });
+    }
+}
+
 //crear curso
   /*crearCurso() {
     if (this.categoriaForm && this.categoriaForm.valid) {
@@ -99,12 +107,12 @@ export class CategoriaComponent implements OnInit{
     }
   }*/
 
-  clicTouch() {
-    Object.values(this.categoriaForm.controls).forEach(control => {
-      control.markAsTouched();
-    });
-  }
-}
+//   clicTouch() {
+//     Object.values(this.categoriaForm.controls).forEach(control => {
+//       control.markAsTouched();
+//     });
+//   }
+// }
 /*
 nombreCategoria: string = '';
   idCategoria: number = 0;
@@ -141,4 +149,4 @@ nombreCategoria: string = '';
       }, error => {
         console.error('Error al eliminar la categoría:', error);
       });
- 
+ */
