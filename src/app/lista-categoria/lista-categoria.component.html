@@ -1,0 +1,32 @@
+<div *ngIf="categories.length > 0; else loading">
+  <h2>Lista de Categorías:</h2>
+  <div class="card-header">
+    <a class="btn btn-primary" routerLink="/categoria" role="button">Crear Categoría</a>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>ID de la categoría</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td>{{ category.id }}</td>
+        <td>{{ category.idnumber }}</td>
+        <td>{{ category.name }}</td>
+        <td>{{ category.description }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" [routerLink]="['/editar']">Editar</button> ㅤ
+            <button class="btn btn-danger btn-sm">Eliminar</button>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #loading>
+  <p>Cargando categorías...</p>
+</ng-template>

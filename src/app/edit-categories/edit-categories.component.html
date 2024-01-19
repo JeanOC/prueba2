@@ -1,0 +1,42 @@
+<div class="container">
+    <form [formGroup]="categoriaForm" >
+      <div class="form-group">
+        <label for="categoriaPadre">Categoría Padre:</label>
+        <select id="categoriaPadre" formControlName="categoriaPadre" class="form-control">
+          
+          <option value="0" selected>Superior</option>
+          <option *ngFor="let categoria of categorias" [value]="categoria.id">
+            {{ categoria.name || 'Nombre no disponible' }}
+          </option>
+        </select>
+        <div *ngIf="categoriaForm.get('categoriaPadre')?.hasError('required') && (categoriaForm.get('categoriaPadre')?.touched)"
+          class="text-danger">La Categoría Padre es obligatorio</div>
+      </div>
+    
+      <div class="form-group">
+        <label for="nombre">Nombre de la categoría:</label>
+        <input type="text" id="nombre" formControlName="nombre" class="form-control">
+        <div *ngIf="categoriaForm.get('nombre')?.hasError('required') && (categoriaForm.get('nombre')?.touched)"
+          class="text-danger">El nombre es obligatorio</div>
+      </div>
+  
+      <div class="form-group">
+        <label for="id">Número ID de la categoría:</label>
+        <input type="number" id="id" formControlName="id" class="form-control">
+        <div *ngIf="categoriaForm.get('id')?.hasError('required') && (categoriaForm.get('id')?.touched)"
+          class="text-danger">El ID es obligatorio</div>
+        <div *ngIf="categoriaForm.get('id')?.hasError('min') && (categoriaForm.get('id')?.touched)"
+          class="text-danger">El ID debe ser mayor a 0</div>
+      </div>
+  
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" formControlName="descripcion" class="form-control"></textarea>
+        <div *ngIf="categoriaForm.get('descripcion')?.hasError('required') && categoriaForm.get('descripcion')?.touched"
+          class="text-danger">La descripción es obligatoria</div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" (click)="clicTouch()">Editar Categoría</button>
+      <a class="btn btn-secondary" href="/lista">Cancelar</a>
+    </form>
+  </div>  
