@@ -30,6 +30,18 @@ export class ListaCategoriaComponent implements OnInit {
       });
   }
 
-  
+  eliminarCategoria(categoryId: number): void {
+    this.categoriesService.eliminarCategoria(categoryId)
+      .subscribe(
+        () => {
+          console.log('Categoría eliminada con éxito');
+          // Actualizar la lista de categorías después de la eliminación si es necesario
+          // Agrega la lógica para actualizar la lista según tu implementación
+        },
+        error => {
+          console.error('Error al eliminar la categoría:', error);
+        }
+      );
+  }
 
 }

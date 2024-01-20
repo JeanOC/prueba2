@@ -31,11 +31,11 @@ export class EditCategoriesComponent {
     /*this.categoriesService.getAllCategories(id).subscribe(categorias => {
       this.categorias = categorias;
     });*/
-    // const id = '3';
-    // this.categoriesService.editCategory(id).subscribe(([categorias, ecategoria]) => {
-    //   this.categorias = categorias;
-    //   this.ecategoria = ecategoria;
-    // });
+    const id = '3';
+    this.categoriesService.editCategory(id).subscribe(([categorias, ecategoria]) => {
+      this.categorias = categorias;
+      this.ecategoria = ecategoria;
+    });
   }
 
   clicTouch() {

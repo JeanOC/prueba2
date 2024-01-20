@@ -13,14 +13,12 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 export class CategoriaComponent implements OnInit{
   categoriaForm!: FormGroup;
   categorias: any[] = [];
-  ecategoria: any;
 
   constructor(
     private fb: FormBuilder, 
     private categoriesService: CategoriesService,
     private router: Router,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
     ) {}
 
   ngOnInit() {
@@ -36,26 +34,6 @@ export class CategoriaComponent implements OnInit{
       console.log('Categorías obtenidas:', categorias);
     });
   }
-
-  loadPageData(){
-    this.categoriesService.getAllCategories().subscribe(categorias => {
-      this.categorias = categorias;
-      console.log('Categorías obtenidas:', categorias);
-    });
-  }
-
-  /**
-   * get form
-   */
-  // get categoriaForm(): FormGroup {
-  //   return this.formBuilder.group({
-  //     categoriaPadre: [0, Validators.required],
-  //     nombre: ['', Validators.required],
-  //     id: [0, [Validators.required, Validators.min(1)]],
-  //     descripcion: ['', Validators.required]
-      
-  //   });
-  // }
 
   crearCategoria() {
     if (this.categoriaForm && this.categoriaForm.valid) {
@@ -77,14 +55,6 @@ export class CategoriaComponent implements OnInit{
       }
     }
   }
-
-  clicTouch() {
-        Object.values(this.categoriaForm.controls).forEach(control => {
-          control.markAsTouched();
-        });
-    }
-}
-
 //crear curso
   /*crearCurso() {
     if (this.categoriaForm && this.categoriaForm.valid) {
@@ -107,12 +77,12 @@ export class CategoriaComponent implements OnInit{
     }
   }*/
 
-//   clicTouch() {
-//     Object.values(this.categoriaForm.controls).forEach(control => {
-//       control.markAsTouched();
-//     });
-//   }
-// }
+  clicTouch() {
+    Object.values(this.categoriaForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
+  }
+}
 /*
 nombreCategoria: string = '';
   idCategoria: number = 0;
@@ -149,4 +119,5 @@ nombreCategoria: string = '';
       }, error => {
         console.error('Error al eliminar la categoría:', error);
       });
- */
+  }
+*/

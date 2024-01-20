@@ -1,0 +1,41 @@
+<div class="container">
+    <form [formGroup]="cursoForm" (ngSubmit)="crearCurso()">
+      <div class="form-group">
+        <label for="categoryid">Categoria:</label>
+        <select id="categoryid" formControlName="categoryid" class="form-control">
+          <option value="0" selected>Superior</option>
+          <option *ngFor="let curso of cursos" [value]="curso.id">
+            {{ curso.name || 'Nombre no disponible' }}
+          </option>
+        </select>
+        <div *ngIf="cursoForm.get('categoryid')?.hasError('required') && (cursoForm.get('categoryid')?.touched)"
+          class="text-danger">La Categoría es obligatoria</div>
+      </div>
+
+      <div class="form-group">
+        <label for="idcurso">Número ID del curso:</label>
+        <input type="number" id="idcurso" formControlName="idcurso" class="form-control">
+        <div *ngIf="cursoForm.get('idcurso')?.hasError('required') && (cursoForm.get('idcurso')?.touched)"
+          class="text-danger">El ID es obligatorio</div>
+        <div *ngIf="cursoForm.get('idcurso')?.hasError('min') && (cursoForm.get('idcurso')?.touched)"
+          class="text-danger">El ID debe ser mayor a 0</div>
+      </div>
+  
+      <div class="form-group">
+        <label for="nombrecurso">Nombre del curso:</label>
+        <input type="text" id="nombrecurso" formControlName="nombrecurso" class="form-control">
+        <div *ngIf="cursoForm.get('nombrecurso')?.hasError('required') && (cursoForm.get('nombrecurso')?.touched)"
+          class="text-danger">El nombre es obligatorio</div>
+      </div>
+
+      <div class="form-group">
+        <label for="nombrecorto">Nombre corto:</label>
+        <input type="text" id="nombrecorto" formControlName="nombrecorto" class="form-control">
+        <div *ngIf="cursoForm.get('nombrecorto')?.hasError('required') && (cursoForm.get('nombrecorto')?.touched)"
+          class="text-danger">El Nombre corto es obligatoria</div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" (click)="clicTouch()">Crear Curso</button>
+      <a class="btn btn-secondary" href="/lista_curso">Cancelar</a>
+    </form>
+  </div>

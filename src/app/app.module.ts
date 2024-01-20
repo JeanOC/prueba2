@@ -9,6 +9,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListaCategoriaComponent } from './lista-categoria/lista-categoria.component';
 import { EditCategoriesComponent } from './edit-categories/edit-categories.component';
 
+import { ListaCursoComponent } from './lista-curso/lista-curso.component';
+import { CursoComponent } from './curso/curso.component';
+
 
 
 @NgModule({
@@ -16,7 +19,10 @@ import { EditCategoriesComponent } from './edit-categories/edit-categories.compo
     AppComponent,
     CategoriaComponent,
     ListaCategoriaComponent,
-    EditCategoriesComponent
+    EditCategoriesComponent,
+    CursoComponent,
+    CursoComponent,
+    ListaCursoComponent
   ],
   imports: [
     BrowserModule,

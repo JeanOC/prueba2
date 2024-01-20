@@ -6,7 +6,7 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriesService {
+export class CoursesService {
 
   private moodleUrl = 'http://localhost/webservice/rest/server.php';
   private token = 'be6ee7cae1b3d0b486a1132723699c4c';
@@ -15,8 +15,8 @@ export class CategoriesService {
     private http: HttpClient
   ) { }
 
-  // create fuction createCategory
-  createCategory(nombre: string, parent: string, id: number, descripcion: string): Observable<any> {
+  // create fuction createCourse
+  createCourse(nombrecurso: string, nombrecorto: string, idcurso: number, categoryid: string): Observable<any> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -24,12 +24,12 @@ export class CategoriesService {
 
     const body = new URLSearchParams();
     body.set('wstoken', this.token);
-    body.set('wsfunction', 'core_course_create_categories');
+    body.set('wsfunction', 'core_course_create_courses');
     body.set('moodlewsrestformat', 'json');
-    body.set('categories[0][name]', nombre);
-    body.set('categories[0][parent]', parent);
-    body.set('categories[0][idnumber]', id.toString());
-    body.set('categories[0][description]', descripcion);
+    body.set('courses[0][fullname]', nombrecurso);
+    body.set('courses[0][shortname]', nombrecorto);
+    body.set('courses[0][idnumber]', idcurso.toString());
+    body.set('courses[0][categoryid]', categoryid);
 
     const options = {
       headers,
@@ -46,36 +46,28 @@ export class CategoriesService {
     return throwError('Something bad happened; please try again later.');
   }
 
-  /**
-   * list all categories
-   */
-  getAllCategories(): Observable<any[]> {
-    const url = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.token}&wsfunction=core_course_get_categories&moodlewsrestformat=json`;
-    return this.http.get<any[]>(url);
-    console.log('url del servicio',url)
-  }
 //listar cursos
 
-  getAllCourses(): Observable<any[]> {
-    const url = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.token}&wsfunction=core_course_get_courses&moodlewsrestformat=json`;
-    return this.http.get<any[]>(url);
-    console.log('url del servicio',url)
-  }
- 
+getAllCourses(): Observable<any[]> {
+  const url = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.token}&wsfunction=core_course_get_courses&moodlewsrestformat=json`;
+  return this.http.get<any[]>(url);
+  console.log('url del servicio',url)
+}
+
  
 
 
-  obtenerCategoria(categoryId: number): Observable<any> {
+  obtenerCurso(courseId: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     const body = new URLSearchParams();
     body.set('wstoken', this.token);
-    body.set('wsfunction', 'core_course_get_categories');
+    body.set('wsfunction', 'core_course_get_courses');
     body.set('moodlewsrestformat', 'json');
     body.set('criteria[0][key]', 'id');
-    body.set('criteria[0][value]', categoryId.toString());
+    body.set('criteria[0][value]', courseId.toString());
 
     const options = { headers };
 
@@ -86,16 +78,16 @@ export class CategoriesService {
       );
   }
 
- eliminarCategoria(categoryId: number): Observable<any> {
-    console.log('Iniciando eliminación de categoría con ID:', categoryId);
+ eliminarCurso(courseId: number): Observable<any> {
+    console.log('Iniciando eliminación de cueso con ID:', courseId);
 
-    return this.obtenerCategoria(categoryId).pipe(
-      tap((categoriaAntesEliminacion: any) => {
-        console.log('Datos de la categoría antes de la eliminación:', categoriaAntesEliminacion);
+    return this.obtenerCurso(courseId).pipe(
+      tap((cursoAntesEliminacion: any) => {
+        console.log('Datos de la cueso antes de la eliminación:', cursoAntesEliminacion);
       }),
       catchError(error => {
-        console.error('Error al obtener datos de la categoría antes de la eliminación:', error);
-        return throwError('Error al obtener datos de la categoría antes de la eliminación.');
+        console.error('Error al obtener datos de la cueso antes de la eliminación:', error);
+        return throwError('Error al obtener datos de la cueso antes de la eliminación.');
       }),
       // Realizar la eliminación
       switchMap(() => {
@@ -105,17 +97,17 @@ export class CategoriesService {
 
         const body = new HttpParams()
           .set('wstoken', this.token)
-          .set('wsfunction', 'core_course_delete_categories')
+          .set('wsfunction', 'core_course_delete_courses')
           .set('moodlewsrestformat', 'json')
-          .set('categoryids[0]', categoryId.toString());
+          .set('courseids[0]', courseId.toString());
 
         const options = { headers };
 
         return this.http.post<void>(this.moodleUrl, body.toString(), options);
       }),
       catchError(error => {
-        console.error('Error en la eliminación de categoría:', error);
-        return throwError('Error al eliminar la categoría. Verifica los logs del servidor Moodle para obtener más detalles.');
+        console.error('Error en la eliminación de cueso:', error);
+        return throwError('Error al eliminar la cueso. Verifica los logs del servidor Moodle para obtener más detalles.');
       })
     );
   }
@@ -123,19 +115,19 @@ export class CategoriesService {
 
 
     
-  editCategory(id: string): Observable<any> {
+  editCourse(id: string): Observable<any> {
     const headers = new HttpHeaders();
 
     const serverurl = new HttpParams()
       .set('wstoken', this.token)
-      .set('wsfunction', 'core_course_get_categories')
+      .set('wsfunction', 'core_course_get_courses')
       .set('moodlewsrestformat', 'json');
 
     const serverurl2 = new HttpParams()
       .set('wstoken', this.token)
-      .set('wsfunction', 'core_course_get_categories')
+      .set('wsfunction', 'core_course_get_courses')
       .set('moodlewsrestformat', 'json')
-      .set('addsubcategories', '0')
+      .set('addsubcourses', '0')
       .set('criteria[0][key]', 'id')
       .set('criteria[0][value]', id);
 
@@ -143,9 +135,9 @@ export class CategoriesService {
       headers,
     };
 
-    const categorias$ = this.http.get(`${this.moodleUrl}`, { params: serverurl, ...options });
-    const ecategoria$ = this.http.get(`${this.moodleUrl}`, { params: serverurl2, ...options });
+    const cursos$ = this.http.get(`${this.moodleUrl}`, { params: serverurl, ...options });
+    const ecurso$ = this.http.get(`${this.moodleUrl}`, { params: serverurl2, ...options });
 
-    return forkJoin([categorias$, ecategoria$]);
+    return forkJoin([cursos$, ecurso$]);
   }
 }
