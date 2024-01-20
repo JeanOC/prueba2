@@ -9,7 +9,7 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 export class CategoriesService {
 
   private moodleUrl = 'http://localhost/webservice/rest/server.php';
-  private token = 'be6ee7cae1b3d0b486a1132723699c4c';
+  private token = '6ce486308202a4eda869e2287d885d47';
 
   constructor(
     private http: HttpClient
@@ -61,8 +61,8 @@ export class CategoriesService {
     return this.http.get<any[]>(url);
     console.log('url del servicio',url)
   }
- 
- 
+
+
 
 
   obtenerCategoria(categoryId: number): Observable<any> {
@@ -122,7 +122,7 @@ export class CategoriesService {
 
 
 
-    
+
   editCategory(id: string): Observable<any> {
     const headers = new HttpHeaders();
 

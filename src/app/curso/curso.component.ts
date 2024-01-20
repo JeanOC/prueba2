@@ -14,43 +14,49 @@ import { CategoriesService } from '../services/categories.service';
 export class CursoComponent implements OnInit{
   cursoForm!: FormGroup;
   cursos: any[] = [];
+  categorias: any[] = [];
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private coursesService: CoursesService,
     private router: Router,
     private route: ActivatedRoute,
-    private categorieService: CategoriesService
+    private categoriesService: CategoriesService,
     ) {}
 
   ngOnInit() {
     this.cursoForm = this.fb.group({
-      nombrecurso: ['', Validators.required],
-      nombrecorto: ['', Validators.required],
-      idcurso: [0, [Validators.required, Validators.min(1)]],
-      categoryid: [0, Validators.required]
+      nombre: ['', Validators.required],
+      nombreCorto: ['', Validators.required],
+      categoryid: [0, Validators.required],
+      idnumber: [0, [Validators.required, Validators.min(1)]],
     });
 
-    this.categorieService.getAllCategories().subscribe(cursos => {
+    this.categoriesService.getAllCourses().subscribe(cursos => {
       this.cursos = cursos;
       console.log('Curso obtenidas:', cursos);
+    });
+
+    this.categoriesService.getAllCategories().subscribe(categorias => {
+      this.categorias = categorias;
+      console.log('Categorías obtenidas:', categorias);
     });
   }
 
   crearCurso() {
     if (this.cursoForm && this.cursoForm.valid) {
-      const nombrecurso = this.cursoForm.get('nombrecurso')?.value;
-      const nombrecorto = this.cursoForm.get('nombrecorto')?.value;
-      const idcurso = this.cursoForm.get('idcourse')?.value;
+      const nombre = this.cursoForm.get('nombre')?.value;
+      const nombreCorto = this.cursoForm.get('nombreCorto')?.value;
       const categoryid = this.cursoForm.get('categoryid')?.value;
-      
+      const idnumber = this.cursoForm.get('idnumber')?.value;
 
-      if (nombrecurso !== undefined && nombrecorto !== undefined && categoryid !== undefined && idcurso !== undefined) {
-        this.coursesService.createCourse(nombrecurso, nombrecorto, categoryid, idcurso)
+
+      if (nombre !== undefined && nombreCorto !== undefined && categoryid !== undefined && idnumber !== undefined) {
+        this.coursesService.createCourse(nombre, nombreCorto, categoryid,idnumber)
           .subscribe(response => {
             console.log('Curso creado con éxito:', response);
             alert('Curso creado con éxito');
-            this.router.navigate(['/lista']);
+            this.router.navigate(['/lista_curso']);
           }, error => {
             console.error('Error al crear el curso:', error);
             alert('Error al crear el curso');

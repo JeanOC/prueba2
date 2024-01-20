@@ -9,14 +9,14 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 export class CoursesService {
 
   private moodleUrl = 'http://localhost/webservice/rest/server.php';
-  private token = 'be6ee7cae1b3d0b486a1132723699c4c';
+  private token = '6ce486308202a4eda869e2287d885d47';
 
   constructor(
     private http: HttpClient
   ) { }
 
   // create fuction createCourse
-  createCourse(nombrecurso: string, nombrecorto: string, idcurso: number, categoryid: string): Observable<any> {
+  createCourse(nombre: string, nombreCorto: string, categoryid: string, idnumber: string): Observable<any> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -26,10 +26,10 @@ export class CoursesService {
     body.set('wstoken', this.token);
     body.set('wsfunction', 'core_course_create_courses');
     body.set('moodlewsrestformat', 'json');
-    body.set('courses[0][fullname]', nombrecurso);
-    body.set('courses[0][shortname]', nombrecorto);
-    body.set('courses[0][idnumber]', idcurso.toString());
+    body.set('courses[0][fullname]', nombre);
+    body.set('courses[0][shortname]', nombreCorto);
     body.set('courses[0][categoryid]', categoryid);
+    body.set('courses[0][idnumber]', idnumber.toString());
 
     const options = {
       headers,
@@ -46,15 +46,23 @@ export class CoursesService {
     return throwError('Something bad happened; please try again later.');
   }
 
+  /**
+   * list all curso
+   */
+
+  getAllCategories(): Observable<any[]> {
+    const url = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.token}&wsfunction=core_course_get_courses&moodlewsrestformat=json`;
+    return this.http.get<any[]>(url);
+    console.log('url del servicio',url)
+  }
 //listar cursos
+  getAllCourses(): Observable<any[]> {
+    const url = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.token}&wsfunction=core_course_get_courses&moodlewsrestformat=json`;
+    return this.http.get<any[]>(url);
+    console.log('url del servicio',url)
+  }
 
-getAllCourses(): Observable<any[]> {
-  const url = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.token}&wsfunction=core_course_get_courses&moodlewsrestformat=json`;
-  return this.http.get<any[]>(url);
-  console.log('url del servicio',url)
-}
 
- 
 
 
   obtenerCurso(courseId: number): Observable<any> {
@@ -114,7 +122,7 @@ getAllCourses(): Observable<any[]> {
 
 
 
-    
+
   editCourse(id: string): Observable<any> {
     const headers = new HttpHeaders();
 

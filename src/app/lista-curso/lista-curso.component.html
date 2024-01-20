@@ -1,32 +1,32 @@
 <div *ngIf="courses.length > 0; else loading">
-    <h2>Lista de cursos </h2>
-        <div class="card-header">
-            <a class="btn btn-primary" routerLink="/curso" role="button">Crear Curso</a>
-        </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>categoría</th>
-                    <th>Nombre</th>
-                    <th>Nombre corto</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let courses of courses">
-                    <td>{{ courses.categoryididcourse }}</td>
-                    <td>{{ courses.idnumber }}</td>
-                    <td>{{ courses.fullname }}</td>
-                    <td>{{ courses.shortname }}</td>
-                    <td>
-                        <button class="btn btn-primary btn-sm" [routerLink]="['/editar']">Editar</button> ㅤ
-                        <button class="btn btn-danger btn-sm" (click)="eliminarCurso(courses.id)">Eliminar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+  <h2>Lista de Cursos:</h2>
+  <div class="card-header">
+    <a class="btn btn-primary" routerLink="/curso" role="button">Crear Curso</a>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>ID del curso</th>
+        <th>Nombre Corto</th>
+        <th>Nombre Largo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let course of courses">
+        <td>{{ course.id }}</td>
+        <td>{{ course.idnumber }}</td>
+        <td>{{ course.shortname }}</td>
+        <td>{{ course.fullname }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" [routerLink]="['/editar']">Editar</button> ㅤ
+          <button class="btn btn-danger btn-sm" (click)="eliminarCurso(course.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <ng-template #loading>
-    <p>Cargando curso...</p>
+  <p>Cargando cursos...</p>
 </ng-template>
