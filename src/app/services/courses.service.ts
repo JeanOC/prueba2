@@ -9,7 +9,7 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 export class CoursesService {
 
   private moodleUrl = 'http://localhost/webservice/rest/server.php';
-  private token = '6ce486308202a4eda869e2287d885d47';
+  private token = '643f14fbddb213e6997eed190934cae2';
 
   constructor(
     private http: HttpClient
