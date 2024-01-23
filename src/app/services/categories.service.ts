@@ -16,7 +16,7 @@ export class CategoriesService {
   ) { }
 
   // create fuction createCategory
-  createCategory(nombre: string, parent: string, id: number, descripcion: string): Observable<any> {
+  createCategory(nombre: string, parent: string, idnumber: number, descripcion: string): Observable<any> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -28,7 +28,7 @@ export class CategoriesService {
     body.set('moodlewsrestformat', 'json');
     body.set('categories[0][name]', nombre);
     body.set('categories[0][parent]', parent);
-    body.set('categories[0][idnumber]', id.toString());
+    body.set('categories[0][idnumber]', idnumber.toString());
     body.set('categories[0][description]', descripcion);
 
     const options = {
@@ -105,31 +105,31 @@ export class CategoriesService {
       );
   }
 
-  editCategory(id: number): Observable<any> {
-    const headers = new HttpHeaders();
+  // editCategory(id: number): Observable<any> {
+  //   const headers = new HttpHeaders();
 
-    const serverurl = new HttpParams()
-      .set('wstoken', this.token)
-      .set('wsfunction', 'core_course_get_categories')
-      .set('moodlewsrestformat', 'json');
+  //   const serverurl = new HttpParams()
+  //     .set('wstoken', this.token)
+  //     .set('wsfunction', 'core_course_get_categories')
+  //     .set('moodlewsrestformat', 'json');
 
-    const serverurl2 = new HttpParams()
-      .set('wstoken', this.token)
-      .set('wsfunction', 'core_course_get_categories')
-      .set('moodlewsrestformat', 'json')
-      .set('addsubcategories', '0')
-      .set('criteria[0][key]', 'id')
-      .set('criteria[0][value]', id);
+  //   const serverurl2 = new HttpParams()
+  //     .set('wstoken', this.token)
+  //     .set('wsfunction', 'core_course_get_categories')
+  //     .set('moodlewsrestformat', 'json')
+  //     .set('addsubcategories', '0')
+  //     .set('criteria[0][key]', 'id')
+  //     .set('criteria[0][value]', id);
 
-    const options = {
-      headers,
-    };
+  //   const options = {
+  //     headers,
+  //   };
 
-    const categorias$ = this.http.get(`${this.moodleUrl}`, { params: serverurl, ...options });
-    const ecategoria$ = this.http.get(`${this.moodleUrl}`, { params: serverurl2, ...options });
+  //   const categorias$ = this.http.get(`${this.moodleUrl}`, { params: serverurl, ...options });
+  //   const ecategoria$ = this.http.get(`${this.moodleUrl}`, { params: serverurl2, ...options });
 
-    return forkJoin([categorias$, ecategoria$]);
-  }
+  //   return forkJoin([categorias$, ecategoria$]);
+  // }
 
   updateCategoria(id: string, nombre: string, parent: string, idnumber: string, descripcion: string): Observable<any> {
     const functionname = 'core_course_update_categories';
@@ -140,5 +140,32 @@ export class CategoriesService {
       `&categories[0][idnumber]=${idnumber}&categories[0][description]=${descripcion}&categories[0][descriptionformat]=1`;
 
     return this.http.get(serverurl);
+  }
+
+  updateCategory(categoryId: string, nombre: string, idnumber: number, parent: string, descripcion: string): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    const body = new URLSearchParams();
+    body.set('wstoken', this.token);
+    body.set('wsfunction', 'core_course_update_categories');
+    body.set('moodlewsrestformat', 'json');
+    body.set('categories[0][id]', `${categoryId}`);
+    body.set('categories[0][name]', nombre);
+    body.set('categories[0][idnumber]', idnumber.toString());
+    body.set('categories[0][parent]', parent);
+    body.set('categories[0][description]', descripcion);
+    
+
+    const options = {
+      headers,
+    };
+
+    return this.http.post(this.moodleUrl, body.toString(), options)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 }

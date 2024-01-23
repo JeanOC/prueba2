@@ -26,7 +26,7 @@ export class EditCategoriesComponent {
     this.categoriaForm = this.fb.group({
       categoriaPadre: [0, Validators.required],
       nombre: ['', Validators.required],
-      id: [0, [Validators.required, Validators.min(1)]],
+      idnumber: [0, [Validators.required, Validators.min(1)]],
       descripcion: ['', Validators.required]
     });
 
@@ -59,7 +59,7 @@ export class EditCategoriesComponent {
         this.categoriaForm.patchValue({
           categoriaPadre: data[0].parent, // Ajusta esto según la estructura real de tus datos
           nombre: data[0].name,
-          id: data[0].id,
+          idnumber: data[0].idnumber,
           descripcion: data[0].description
         });
       },
@@ -74,4 +74,31 @@ export class EditCategoriesComponent {
       control.markAsTouched();
     });
   }
+
+  updateCategory(): void {
+    const id = this.route.snapshot.paramMap.get('id'); // Obtener el id directamente de la URL
+  
+    // Verificar si el valor de id es válido antes de enviar la solicitud
+    if (id !== undefined && id !== null) {
+      const nombre = this.categoriaForm.value.nombre;
+      const idnumber = this.categoriaForm.value.idnumber;
+      const parent = this.categoriaForm.value.categoriaPadre;
+      const descripcion = this.categoriaForm.value.descripcion;
+  
+      this.categoriesService.updateCategory(id, nombre, idnumber, parent, descripcion).subscribe(
+        (data) => {
+          alert('Categoría creada con éxito');
+          console.log('Categoría actualizada con éxito:', data);
+          this.router.navigate(['/lista']);
+          // Puedes realizar acciones adicionales después de la actualización
+        },
+        (error) => {
+          console.error('Error al actualizar la categoría:', error);
+        }
+      );
+    } else {
+      console.error('El valor de "id" es undefined o null.');
+    }
+  }
+
 }
