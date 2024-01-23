@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EditCategoriesComponent {
   categoriaForm!: FormGroup;
-  categorias: any;
+  categorias: any[] = [];
   ecategoria: any;
 
   constructor(
@@ -20,7 +20,9 @@ export class EditCategoriesComponent {
     private route: ActivatedRoute,
     ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.loadPageData();
+
     this.categoriaForm = this.fb.group({
       categoriaPadre: [0, Validators.required],
       nombre: ['', Validators.required],
@@ -28,14 +30,43 @@ export class EditCategoriesComponent {
       descripcion: ['', Validators.required]
     });
 
-    /*this.categoriesService.getAllCategories(id).subscribe(categorias => {
-      this.categorias = categorias;
-    });*/
-    // const id = '3';
-    // this.categoriesService.editCategory(id).subscribe(([categorias, ecategoria]) => {
-    //   this.categorias = categorias;
-    //   this.ecategoria = ecategoria;
-    // });
+    this.route.paramMap.subscribe(params => {
+      const categoryId = params.get('id'); // Asumiendo que el parámetro se llama 'id'
+      if (categoryId) {
+        this.getMoodleCategories(categoryId);
+      }
+    });
+
+  }
+
+  loadPageData() {
+    this.categoriesService.getAllCategories()
+      .subscribe((response: any) => {
+        this.categorias = response;
+        console.log('respuesta',response);
+      }, error => {
+        console.error('Error al obtener categorías:', error);
+      });
+  }
+
+  getMoodleCategories(categoryId: string): void {
+    this.categoriesService.getCategoriaById(categoryId).subscribe(
+      (data) => {
+        console.log('Categorías de Moodle:', data);
+        this.categorias = data; // Asigna los datos recuperados a la propiedad categorias
+
+        // Asigna los valores al formulario
+        this.categoriaForm.patchValue({
+          categoriaPadre: data[0].parent, // Ajusta esto según la estructura real de tus datos
+          nombre: data[0].name,
+          id: data[0].id,
+          descripcion: data[0].description
+        });
+      },
+      (error) => {
+        console.error('Error al obtener categorías de Moodle:', error);
+      }
+    );
   }
 
   clicTouch() {
