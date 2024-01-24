@@ -168,4 +168,34 @@ export class CategoriesService {
         catchError(this.handleError)
       );
   }
+
+  deleteCategory(categoryId: number, newParentId?: number, recursive: number = 0): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+  
+    const body = new URLSearchParams();
+    body.set('wstoken', this.token);
+    body.set('wsfunction', 'core_course_delete_categories');
+    body.set('moodlewsrestformat', 'json');
+    body.set('categories[0][id]', categoryId.toString());
+  
+    // Si newParentId está presente, agregarlo a la solicitud para mover la categoría
+    if (newParentId !== undefined && newParentId !== null) {
+      body.set('categories[0][newparent]', newParentId.toString());
+    }
+  
+    // Agregar el parámetro recursive
+    body.set('categories[0][recursive]', recursive.toString());
+  
+    const options = {
+      headers,
+    };
+  
+    return this.http.post(this.moodleUrl, body.toString(), options)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  
 }

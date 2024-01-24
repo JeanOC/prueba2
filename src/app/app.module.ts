@@ -8,6 +8,7 @@ import { HttpClientModule} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListaCategoriaComponent } from './lista-categoria/lista-categoria.component';
 import { EditCategoriesComponent } from './edit-categories/edit-categories.component';
+import { DeleteCategoryComponent } from './delete-category/delete-category.component';
 
 
 
@@ -16,7 +17,8 @@ import { EditCategoriesComponent } from './edit-categories/edit-categories.compo
     AppComponent,
     CategoriaComponent,
     ListaCategoriaComponent,
-    EditCategoriesComponent
+    EditCategoriesComponent,
+    DeleteCategoryComponent
   ],
   imports: [
     BrowserModule,
